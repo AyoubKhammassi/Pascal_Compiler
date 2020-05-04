@@ -1,0 +1,8 @@
+program test;
+var a = 5;
+begin
+(*Comment 
+lml;;
+test*)
+
+end

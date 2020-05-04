@@ -46,27 +46,36 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     COMM = 258,
-     LINE_COMM = 259,
-     VAR = 260,
-     FUNC = 261,
-     PROG = 262,
-     INTEGER = 263,
-     NUMCONST = 264,
-     BEGIN = 265,
-     END = 266,
-     IDENTIFIER = 267,
-     RETURN = 268,
-     IF = 269,
-     THEN = 270,
-     ELSE = 271,
-     WHILE = 272
+     VAR = 258,
+     FUNC = 259,
+     PROG = 260,
+     INTEGER = 261,
+     BEG = 262,
+     END = 263,
+     RETURN = 264,
+     IF = 265,
+     THEN = 266,
+     ELSE = 267,
+     WHILE = 268,
+     NUMCONST = 269,
+     IDENTIFIER = 270
    };
 #endif
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+/* Line 2058 of yacc.c  */
+#line 17 ".\\parser.y"
+
+	int number;
+	char* identifier;
+
+
+/* Line 2058 of yacc.c  */
+#line 78 "parser.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -82,7 +91,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (context cxt);
+int yyparse (void);
 #else
 int yyparse ();
 #endif

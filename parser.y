@@ -5,15 +5,22 @@
 int yyerror(char const *msg);	
 int yylex(void);
 extern int yylineno;
+context cxt;
 %}
 
-%token COMM
-%token LINE_COMM
 %token VAR
+%token FUNC PROG INTEGER
+%token BEG END RETURN IF THEN ELSE WHILE 
 
-%token FUNC PROG INTEGER NUMCONST
-%token BEGIN END IDENTIFIER RETURN IF THEN ELSE WHILE 
 %start prog
+
+%union {
+	int number;
+	char* identifier;
+}
+%token <number> NUMCONST
+%token <identifier> IDENTIFIER
+
 
 //precedence declarations to avoid reduce/shift conflicts
 %left ';'
@@ -27,7 +34,7 @@ extern int yylineno;
 %right "++" "--" 
 %left '(' '['
 
-%parse-param { context cxt } //%param
+//%parse-param { context cxt } //%param
 
 
 %%
@@ -44,11 +51,11 @@ stmnt:              rec_stmnt END
 |                   expr ';'
 |                   ';';
 
-rec_stmnt:          BEGIN
+rec_stmnt:          BEG
 |                   rec_stmnt stmnt;
 
 expr:               NUMCONST
-|                   IDENTIFIER;
+|                   IDENTIFIER
 |                   '(' expr ')'                 
 |                   expr '[' expr ']'                 
 |                   expr '(' ')'                 
@@ -69,24 +76,22 @@ expr:               NUMCONST
 |                   expr ',' expr;               
 
 
-var_defs:           VAR IDENTIFIER '=' expr %prec ','
+var_defs:           VAR IDENTIFIER '=' expr %prec '='
 |                   VAR IDENTIFIER
-|                   var_defs ',' IDENTIFIER '=' expr %prec ','
+|                   var_defs ',' IDENTIFIER '=' expr %prec '='
 |                   var_defs ',' IDENTIFIER ;
 
 
                    
-prog:               PROG IDENTIFIER ':'{ ++cxt;} var_defs ';' functions stmnt { --cxt; };
+prog:               PROG IDENTIFIER ';'{ ++cxt;} var_defs ';' functions stmnt { --cxt; };
 %% 
 
 int yyerror(char const *msg) {
-       
-	
 	fprintf(stderr, "%s %d\n", msg,yylineno);
 	return 0;
-	
-	
 }
+
+
 
 //extern FILE *yyin;
 

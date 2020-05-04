@@ -3,18 +3,21 @@
 #include <stdlib.h>
 #include "parser.tab.h"
 
-void yyerror (char *s);
+//void yyerror (char *s);
 int yylex();
 
-bool comment = false;
+extern int errno;
+int linenumber=1;
 %}
 
 digit           [0-9]
-letter          [a-zA-Z]      
+letter          [a-zA-Z]  
+
+%x COMMENT
 
 %%
 "var"				   {return VAR;}
-"begin"				   {return BEGIN;}
+"begin"				   {return BEG;}
 "end"				   {return END;}
 "if"				   {return IF;}
 "then"				   {return THEN;}
@@ -24,16 +27,23 @@ letter          [a-zA-Z]
 "program"			    {return PROG;}
 "int"			        {return INTEGER;}
 
-(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*) { return COMM;}
-\/\/[^\n\r]+?(?:\*\)|[\n\r])    { return LINE_COMM}
-{digit}+                 {yylval = atoi(yytext); return NUMCONST;}
+{digit}+                 {yylval.number = atoi(yytext); return NUMCONST;}
 
-{letter}({letter}|{digit})*			   {yylval.id = yytext[0]; return identifier;}
-[ \t\n]                ;
-[ \-\+\*\=\;\,\)\]\[\)]           	   {return yytext[0];}
-(":="|"*="|"-="|"+="|"||"|"&&"|"--"|"++"|"!="|"==")     {return yytext;}
-.                      {fprintf(stderr,"unexpected character \'%s\' on line :%d\n",yytext,yylineno); yyerror ("unexpected character");}
-{digit}({letter}|{digit})*                      {fprintf(stderr,"Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno); yyerror ("Identifiers must start with a character");}
+{letter}({letter}|{digit})*			   {yylval.identifier = yytext; return IDENTIFIER;}
+{digit}({letter}|{digit})*                      {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno);}
+
+
+
+[ \t \n]+           ;
+[ \-\+\*\=\;\,\)\]\[\)\:]           	   {return yytext[0];}
+(":="|"*="|"-="|"+="|"||"|"&&"|"--"|"++"|"!="|"==")     {printf(yytext) ;return atoi(yytext);}
+.                      {printf("unexpected character \'%s\' on line :%d\n",yytext,yylineno);}
+
+"(*"                BEGIN(COMMENT);
+"*)"                {printf(" Unexpected end of comment \n"); yyterminate();}
+<COMMENT>"*)"      BEGIN(INITIAL);
+<COMMENT>.         ;
+
 
 %%
 int yywrap (void) {return 1;}
