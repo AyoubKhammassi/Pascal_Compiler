@@ -1,6 +1,5 @@
 %{
 #include "parser_utils.h"
-
 			
 int yyerror(char const *msg);	
 int yylex(void);
@@ -9,14 +8,15 @@ context cxt;
 %}
 
 %token VAR
-%token FUNC PROG INTEGER
+%token FUNC PROG INTEGER REAL
 %token BEG END RETURN IF THEN ELSE WHILE 
+%token END_OF_FILE
 
 %start prog
 
 %union {
 	int number;
-	char* identifier;
+	const char* identifier;
 }
 %token <number> NUMCONST
 %token <identifier> IDENTIFIER
@@ -33,17 +33,19 @@ context cxt;
 %left '*' 
 %right "++" "--" 
 %left '(' '['
+%left ASSIGN
 
 //%parse-param { context cxt } //%param
 
 
 %%
-functions:          |   functions function;
-function:           FUNC IDENTIFIER { ++cxt; } '(' paramdecls ')' type var_defs ';' stmnt { --cxt; }; 
+functions:          | functions function;
+function:           FUNC IDENTIFIER { ++cxt; } '(' paramdecls ')' type var_defs stmnt { --cxt; printf("Added new function \n");}; 
 paramdecls:         |   paramdecl;
-paramdecl:          paramdecl ',' IDENTIFIER type
-|                   IDENTIFIER type { cxt.def_param(); };
-type:               ':' INTEGER;
+paramdecl:          paramdecl ',' IDENTIFIER type { cxt.def_param(); printf("Added new parameter \n");}
+|                   IDENTIFIER type { cxt.def_param($1); printf("Added new parameter \n");} ;
+type:               ':' INTEGER
+|					':' REAL;
 stmnt:              rec_stmnt END
 |                   IF '(' expr ')' THEN stmnt ELSE stmnt
 |                   WHILE '(' expr ')' stmnt
@@ -76,14 +78,17 @@ expr:               NUMCONST
 |                   expr ',' expr;               
 
 
-var_defs:           VAR IDENTIFIER '=' expr %prec '='
-|                   VAR IDENTIFIER
-|                   var_defs ',' IDENTIFIER '=' expr %prec '='
-|                   var_defs ',' IDENTIFIER ;
+var_defs:          
+|					rec_var_defs ';';
+
+rec_var_defs:		VAR IDENTIFIER type {cxt.def_var($2);}
+|                   VAR IDENTIFIER	{cxt.def_var($2);}
+|                   rec_var_defs ',' IDENTIFIER type {cxt.def_var($3);}
+|                   rec_var_defs ',' IDENTIFIER 	{cxt.def_var($3);};
 
 
                    
-prog:               PROG IDENTIFIER ';'{ ++cxt;} var_defs ';' functions stmnt { --cxt; };
+prog:               PROG IDENTIFIER ';'{ ++cxt; printf("Program Started \n");} var_defs functions stmnt { --cxt; };
 %% 
 
 int yyerror(char const *msg) {

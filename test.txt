@@ -1,6 +1,14 @@
 program test;
-var a = 5;
+var acb,b : real;
+
+function lel(a:integer) : integer
+var b : real;
 begin
+end
+
+begin
+
+
 (*Comment 
 lml;;
 test*)

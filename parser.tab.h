@@ -50,15 +50,18 @@ extern int yydebug;
      FUNC = 259,
      PROG = 260,
      INTEGER = 261,
-     BEG = 262,
-     END = 263,
-     RETURN = 264,
-     IF = 265,
-     THEN = 266,
-     ELSE = 267,
-     WHILE = 268,
-     NUMCONST = 269,
-     IDENTIFIER = 270
+     REAL = 262,
+     BEG = 263,
+     END = 264,
+     RETURN = 265,
+     IF = 266,
+     THEN = 267,
+     ELSE = 268,
+     WHILE = 269,
+     END_OF_FILE = 270,
+     NUMCONST = 271,
+     IDENTIFIER = 272,
+     ASSIGN = 283
    };
 #endif
 
@@ -70,11 +73,11 @@ typedef union YYSTYPE
 #line 17 ".\\parser.y"
 
 	int number;
-	char* identifier;
+	const char* identifier;
 
 
 /* Line 2058 of yacc.c  */
-#line 78 "parser.tab.h"
+#line 81 "parser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
