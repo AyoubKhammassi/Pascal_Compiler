@@ -1470,25 +1470,25 @@ yyreduce:
         case 4:
 /* Line 1792 of yacc.c  */
 #line 43 ".\\parser.y"
-    { ++cxt; }
+    { ++cxt; cxt.add_func((yyvsp[(2) - (2)].identifier)); printf("New function name is %s \n",(yyvsp[(2) - (2)].identifier));}
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
 #line 43 ".\\parser.y"
-    { --cxt; printf("Added new function \n");}
+    {cxt.def_func(cxt.cur_fun->name).pData = cxt.cur_fun; cxt.cur_fun = nullptr; --cxt;}
     break;
 
   case 8:
 /* Line 1792 of yacc.c  */
 #line 45 ".\\parser.y"
-    { cxt.def_param(); printf("Added new parameter \n");}
+    { cxt.def_param((yyvsp[(3) - (4)].identifier));}
     break;
 
   case 9:
 /* Line 1792 of yacc.c  */
 #line 46 ".\\parser.y"
-    { cxt.def_param((yyvsp[(1) - (2)].identifier)); printf("Added new parameter \n");}
+    { cxt.def_param((yyvsp[(1) - (2)].identifier));}
     break;
 
   case 42:

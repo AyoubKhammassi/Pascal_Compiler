@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>	
 #include <stdlib.h>
+
 #include <string>
 
 #include "parser.tab.h"
@@ -32,7 +33,7 @@ letter          [a-zA-Z]
 
 {digit}+                 {yylval.number = atoi(yytext); return NUMCONST;}
 
-{letter}({letter}|{digit})*			   {yylval.identifier = std::string(yytext).c_str() ; printf(yylval.identifier); printf("\n"); return IDENTIFIER;}
+{letter}({letter}|{digit})*			   { const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
 {digit}({letter}|{digit})*                      {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno);}
 
 

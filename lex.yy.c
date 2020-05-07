@@ -499,6 +499,7 @@ char *yytext;
 #line 2 ".\\parser.l"
 #include <stdio.h>	
 #include <stdlib.h>
+
 #include <string>
 
 #include "parser.tab.h"
@@ -508,9 +509,9 @@ int yylex();
 
 extern int errno;
 int linenumber=1;
-#line 511 "lex.yy.c"
+#line 512 "lex.yy.c"
 
-#line 513 "lex.yy.c"
+#line 514 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -728,9 +729,9 @@ YY_DECL
 		}
 
 	{
-#line 20 ".\\parser.l"
+#line 21 ".\\parser.l"
 
-#line 733 "lex.yy.c"
+#line 734 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -789,125 +790,125 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 21 ".\\parser.l"
+#line 22 ".\\parser.l"
 {return VAR;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 22 ".\\parser.l"
+#line 23 ".\\parser.l"
 {return BEG;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 ".\\parser.l"
+#line 24 ".\\parser.l"
 {return END;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 ".\\parser.l"
+#line 25 ".\\parser.l"
 {return IF;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 ".\\parser.l"
+#line 26 ".\\parser.l"
 {return THEN;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 ".\\parser.l"
+#line 27 ".\\parser.l"
 {return ELSE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 ".\\parser.l"
+#line 28 ".\\parser.l"
 {return WHILE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 ".\\parser.l"
+#line 29 ".\\parser.l"
 {return FUNC;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 ".\\parser.l"
+#line 30 ".\\parser.l"
 {return PROG;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 ".\\parser.l"
+#line 31 ".\\parser.l"
 {return INTEGER;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 ".\\parser.l"
+#line 32 ".\\parser.l"
 {return REAL;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 ".\\parser.l"
+#line 34 ".\\parser.l"
 {yylval.number = atoi(yytext); return NUMCONST;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 35 ".\\parser.l"
-{yylval.identifier = std::string(yytext).c_str() ; printf(yylval.identifier); printf("\n"); return IDENTIFIER;}
+#line 36 ".\\parser.l"
+{ const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 ".\\parser.l"
+#line 37 ".\\parser.l"
 {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno);}
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 39 ".\\parser.l"
+#line 40 ".\\parser.l"
 ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 40 ".\\parser.l"
+#line 41 ".\\parser.l"
 {return yytext[0];}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 41 ".\\parser.l"
+#line 42 ".\\parser.l"
 {printf(yytext) ;return atoi(yytext);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 42 ".\\parser.l"
+#line 43 ".\\parser.l"
 {printf("unexpected character \'%s\' on line :%d\n",yytext,yylineno);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 43 ".\\parser.l"
+#line 44 ".\\parser.l"
 BEGIN(COMMENT);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 44 ".\\parser.l"
+#line 45 ".\\parser.l"
 {printf(" Unexpected end of comment \n"); yyterminate();}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 45 ".\\parser.l"
+#line 46 ".\\parser.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 46 ".\\parser.l"
+#line 47 ".\\parser.l"
 ;
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 47 ".\\parser.l"
+#line 48 ".\\parser.l"
 {printf("Comment needs to be closed \n"); yyterminate();}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 50 ".\\parser.l"
+#line 51 ".\\parser.l"
 ECHO;
 	YY_BREAK
-#line 910 "lex.yy.c"
+#line 911 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1912,7 +1913,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 50 ".\\parser.l"
+#line 51 ".\\parser.l"
 
 int yywrap (void) {return 1;}
 

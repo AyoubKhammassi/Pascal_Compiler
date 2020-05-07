@@ -40,10 +40,10 @@ context cxt;
 
 %%
 functions:          | functions function;
-function:           FUNC IDENTIFIER { ++cxt; } '(' paramdecls ')' type var_defs stmnt { --cxt; printf("Added new function \n");}; 
+function:           FUNC IDENTIFIER { ++cxt; cxt.add_func($2); printf("New function name is %s \n",$2);} '(' paramdecls ')' type var_defs stmnt {cxt.def_func(cxt.cur_fun->name).pData = cxt.cur_fun; cxt.cur_fun = nullptr; --cxt;} ; 
 paramdecls:         |   paramdecl;
-paramdecl:          paramdecl ',' IDENTIFIER type { cxt.def_param(); printf("Added new parameter \n");}
-|                   IDENTIFIER type { cxt.def_param($1); printf("Added new parameter \n");} ;
+paramdecl:          paramdecl ',' IDENTIFIER type { cxt.def_param($3);}
+|                   IDENTIFIER type { cxt.def_param($1);} ;
 type:               ':' INTEGER
 |					':' REAL;
 stmnt:              rec_stmnt END

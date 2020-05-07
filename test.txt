@@ -1,8 +1,12 @@
 program test;
-var acb,b : real;
+var acb,b,lel : real;
 
 function lel(a:integer) : integer
 var b : real;
+begin
+end
+
+function orra(a:real) : integer
 begin
 end
 
