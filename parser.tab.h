@@ -58,10 +58,17 @@ extern int yydebug;
      THEN = 267,
      ELSE = 268,
      WHILE = 269,
-     END_OF_FILE = 270,
-     NUMCONST = 271,
-     IDENTIFIER = 272,
-     ASSIGN = 283
+     ASSIGN = 270,
+     OR = 271,
+     AND = 272,
+     DEC = 273,
+     INC = 274,
+     NOT_EQ = 275,
+     EQ = 276,
+     L_EQ = 277,
+     G_EQ = 278,
+     NUMCONST = 279,
+     IDENTIFIER = 280
    };
 #endif
 
@@ -70,14 +77,14 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 17 ".\\parser.y"
+#line 16 ".\\parser.y"
 
 	int number;
 	const char* identifier;
 
 
 /* Line 2058 of yacc.c  */
-#line 81 "parser.tab.h"
+#line 88 "parser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

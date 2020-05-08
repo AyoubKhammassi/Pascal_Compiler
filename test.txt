@@ -1,18 +1,20 @@
 program test;
-var acb,b,lel : real;
+var acb,lel : real;
 
-function lel(a:integer) : integer
+function le(a:integer) : integer
 var b : real;
 begin
 end
 
 function orra(a:real) : integer
+var b;
 begin
 end
 
 begin
 
-
+a:=b*c;
+b:=5;
 (*Comment 
 lml;;
 test*)

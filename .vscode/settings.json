@@ -1,6 +1,11 @@
 {
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     }
 }

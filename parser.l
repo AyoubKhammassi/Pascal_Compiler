@@ -14,7 +14,9 @@ int linenumber=1;
 %}
 
 digit           [0-9]
-letter          [a-zA-Z]  
+letter          [a-zA-Z] 
+
+%option yylineno
 
 %x COMMENT
 
@@ -31,6 +33,16 @@ letter          [a-zA-Z]
 "integer"			    {return INTEGER;}
 "real"			        {return REAL;}
 
+":="                    {return ASSIGN;}
+"||"                    {return OR;}
+"&&"                    {return AND;}
+"--"                    {return DEC;}
+"++"                    {return INC;}
+"!="                    {return NOT_EQ;}
+"=="                    {return EQ;}
+">="                    {return G_EQ;}
+"<="                    {return L_EQ;}
+
 {digit}+                 {yylval.number = atoi(yytext); return NUMCONST;}
 
 {letter}({letter}|{digit})*			   { const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
@@ -39,7 +51,7 @@ letter          [a-zA-Z]
 
 [ \t \n]+           ;
 [ \-\+\*\=\;\,\(\]\[\)\:]           	   {return yytext[0];}
-(":="|"*="|"-="|"+="|"||"|"&&"|"--"|"++"|"!="|"==")     {printf(yytext) ;return atoi(yytext);}
+
 .                      {printf("unexpected character \'%s\' on line :%d\n",yytext,yylineno);}
 "(*"                BEGIN(COMMENT);
 "*)"                {printf(" Unexpected end of comment \n"); yyterminate();}

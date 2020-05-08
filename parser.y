@@ -7,10 +7,9 @@ extern int yylineno;
 context cxt;
 %}
 
-%token VAR
-%token FUNC PROG INTEGER REAL
+%token VAR FUNC PROG INTEGER REAL
 %token BEG END RETURN IF THEN ELSE WHILE 
-%token END_OF_FILE
+%token ASSIGN ":=" OR "||" AND "&&" DEC "--" INC "++" NOT_EQ "!=" EQ "==" L_EQ "<=" G_EQ ">="
 
 %start prog
 
@@ -33,14 +32,13 @@ context cxt;
 %left '*' 
 %right "++" "--" 
 %left '(' '['
-%left ASSIGN
 
 //%parse-param { context cxt } //%param
 
 
 %%
 functions:          | functions function;
-function:           FUNC IDENTIFIER { ++cxt; cxt.add_func($2); printf("New function name is %s \n",$2);} '(' paramdecls ')' type var_defs stmnt {cxt.def_func(cxt.cur_fun->name).pData = cxt.cur_fun; cxt.cur_fun = nullptr; --cxt;} ; 
+function:           FUNC IDENTIFIER { ++cxt; cxt.add_func($2);} '(' paramdecls ')' type var_defs stmnt {cxt.def_func(cxt.cur_fun->name).pData = cxt.cur_fun; cxt.cur_fun = nullptr; --cxt;} ; 
 paramdecls:         |   paramdecl;
 paramdecl:          paramdecl ',' IDENTIFIER type { cxt.def_param($3);}
 |                   IDENTIFIER type { cxt.def_param($1);} ;
@@ -57,7 +55,7 @@ rec_stmnt:          BEG
 |                   rec_stmnt stmnt;
 
 expr:               NUMCONST
-|                   IDENTIFIER
+|                   IDENTIFIER {cxt.can_use($1);}
 |                   '(' expr ')'                 
 |                   expr '[' expr ']'                 
 |                   expr '(' ')'                 
@@ -88,7 +86,7 @@ rec_var_defs:		VAR IDENTIFIER type {cxt.def_var($2);}
 
 
                    
-prog:               PROG IDENTIFIER ';'{ ++cxt; printf("Program Started \n");} var_defs functions stmnt { --cxt; };
+prog:               PROG IDENTIFIER ';'{ ++cxt; printf("Compiling program %s ... \n", $2);} var_defs functions stmnt { --cxt; cxt.list_funcs();};
 %% 
 
 int yyerror(char const *msg) {
