@@ -942,7 +942,7 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 49 ".\\parser.l"
-{printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno);}
+{printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno); exit(0);}
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */

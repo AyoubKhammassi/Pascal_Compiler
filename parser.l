@@ -46,7 +46,7 @@ letter          [a-zA-Z]
 {digit}+                 {yylval.number = atoi(yytext); return NUMCONST;}
 
 {letter}({letter}|{digit})*			   { const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
-{digit}({letter}|{digit})*                      {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno);}
+{digit}({letter}|{digit})*                      {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno); exit(0);}
 
 
 [ \t \n]+           ;

@@ -2,7 +2,7 @@ program test;
 var acb,lel : real;
 
 function le(a:integer) : integer
-var b : real;
+var a : real;
 begin
 end
 

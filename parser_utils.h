@@ -5,8 +5,9 @@
 #include <map>
 #include <algorithm>
 #include <cstring>
+#include <sstream>
 
-extern int yylineno;
+#include "console.h"
 
 enum Identifier_type
 {
@@ -16,16 +17,14 @@ enum Identifier_type
     variable
 };
 
-
 struct Identifier
 {
-    Identifier(Identifier_type t, void* pd,const char* n) : type(t), pData(pd), name(n) {}
+    Identifier(Identifier_type t, void* pd,const char* n) : type(t), pData(pd), name(n), used(false) {}
     Identifier_type type = Identifier_type::undefined;
     void* pData;
     const char* name;
+    bool used;
 };
-
-
 
 struct function_data
 {
@@ -62,10 +61,11 @@ public:
     {   //list_all();
         if(exists(name))
         {
-            printf("Redefinition of %s on line %d \n", name, yylineno);
-            exit(0);
+            error("Redefinition of %s \n", name);
+            return *(find_id(name));
+            //exit(0);
         }
-        printf("defined new variable %s \n", name);
+        printf("Defined new variable %s \n", name);
         if(cur_fun != nullptr)
             cur_fun->num_var++;
             
@@ -76,8 +76,9 @@ public:
     {
         if(exists(name))
         {
-            error("Identifier %s already exists \n", name);
-            exit(0);
+            error("Redefinition of %s \n", name);
+            return *(find_id(name));
+            //exit(0);
         } 
         printf("Defined new parameter %s \n", name);
         cur_fun->num_param++;
@@ -88,8 +89,9 @@ public:
     {
         if(exists(name))
         {
-            printf("Identifier %s already exists \n", name);
-            exit(0);
+            error("Redefinition of %s \n", name);
+            return *(find_id(name));
+            //exit(0);
         }
         printf("Defined new function %s \n", name);
         return define(name, Identifier(Identifier_type::function, nullptr, name));
@@ -100,60 +102,44 @@ public:
         cur_fun = &(func_list.back());
     }
 
-    /*Identifier& find_id(const char* name)
-    {
-        for(auto& scope : scopes)
-        {
-            if ( scope.find(name) == scope.end() ) {
-                // not found
-                return NULL;
-            } else {
-                return (scope[name]);
-            }
-        }
-    }*/
-
-    bool exists(const char* name)
+    Identifier* find_id(const char* name)
     {
         for (auto i = scopes.rbegin(); i != scopes.rend(); ++i ) 
         { 
-            if ( i->find(name) != i->end() )
+            auto v = i->find(name);
+            if ( v != i->end() )
             {
-                return true;
+                return &(v->second);
             } 
-        } 
-        return false;
+        }
+        return nullptr;
+    }
+
+    bool exists(const char* name)
+    {
+        return (find_id(name)!=nullptr);
     }
 
     void can_use(const char* name)
     {
-        if(exists(name))
-            return;
+        Identifier* id = find_id(name);
+        if(id!=nullptr && !id->used)
+        {
+            //Mark this identifier as used
+            id->used = true;
+        }
         else
         {
-            printf("%s is not declared in this scope. Line %d \n", name, yylineno);
-            exit(0);
+            error("%s is not declared in this scope \n", name);
+            //exit(0);
         }
         
     }
 
-    void list_all()
-    {
-        printf("############################################### \n");
-        for (auto i = scopes.rbegin(); i != scopes.rend(); ++i ) 
-        { 
-            for (auto j = i->rbegin(); j != i->rend(); ++j)
-            {
-                printf(j->first);
-                printf(" \n");
-
-            } 
-        } 
-        printf("############################################### \n");
-    }
 
     void list_funcs()
     {
+        printf("############################################### \n");
         for(auto& f : func_list)
         {
             printf("function %s has %d parameters and %d variables \n", f.name, f.num_param, f.num_var);
@@ -162,21 +148,14 @@ public:
 
     //operators
     void operator ++() { scopes.emplace_back();}
-    void operator --() { scopes.pop_back();}
+    void operator --() 
+    {
+        for(auto& id : scopes.back())
+        {
+            if(id.second.type != Identifier_type::function && !id.second.used)
+                warning("%s is declared but never used \n", id.first);
+        }
+        scopes.pop_back();
+    }
 };
 
-void warning(const char* msg)
-{
-    printf("\033[0;33m");
-    printf("WARNING line %d: %s \n ",yylineno ,msg);
-    printf("\033[0m");
-}
-
-void error(const char* msg)
-{
-    printf("\033[0;31m");
-    printf("ERROR line %d: %s \n ",yylineno ,msg);
-
-    printf("\n");
-    printf("\033[0m");
-}
