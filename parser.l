@@ -1,7 +1,6 @@
 %{
 #include <stdio.h>	
 #include <stdlib.h>
-
 #include <string>
 
 #include "parser.tab.h"
@@ -45,8 +44,8 @@ letter          [a-zA-Z]
 
 {digit}+                 {yylval.number = atoi(yytext); return NUMCONST;}
 
-{letter}({letter}|{digit})*			   { const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
-{digit}({letter}|{digit})*                      {printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno); exit(0);}
+{letter}({letter}|{digit})*			   { const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; return IDENTIFIER;}
+{digit}({letter}|{digit})*                      {printf("ERROR: Line %d: Identifiers must start with a character: %s \n",yylineno,yytext); exit(0);}
 
 
 [ \t \n]+           ;
@@ -54,10 +53,10 @@ letter          [a-zA-Z]
 
 .                      {printf("unexpected character \'%s\' on line :%d\n",yytext,yylineno);}
 "(*"                BEGIN(COMMENT);
-"*)"                {printf(" Unexpected end of comment \n"); yyterminate();}
+"*)"                {printf("ERROR: Line %d: Unexpected end of comment \n", yylineno); exit(0);}
 <COMMENT>"*)"      BEGIN(INITIAL);
 <COMMENT>.         ;
-<COMMENT><<EOF>>    {printf("Comment needs to be closed \n"); yyterminate();}
+<COMMENT><<EOF>>    {printf("ERROR: Line %d: Comments need to be closed \n", yylineno); exit(0);}
 
 
 %%

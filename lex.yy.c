@@ -530,7 +530,6 @@ char *yytext;
 #line 2 ".\\parser.l"
 #include <stdio.h>	
 #include <stdlib.h>
-
 #include <string>
 
 #include "parser.tab.h"
@@ -540,9 +539,9 @@ int yylex();
 
 extern int errno;
 int linenumber=1;
-#line 543 "lex.yy.c"
+#line 542 "lex.yy.c"
 
-#line 545 "lex.yy.c"
+#line 544 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -760,9 +759,9 @@ YY_DECL
 		}
 
 	{
-#line 23 ".\\parser.l"
+#line 22 ".\\parser.l"
 
-#line 765 "lex.yy.c"
+#line 764 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -831,165 +830,165 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 24 ".\\parser.l"
+#line 23 ".\\parser.l"
 {return VAR;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 ".\\parser.l"
+#line 24 ".\\parser.l"
 {return BEG;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 ".\\parser.l"
+#line 25 ".\\parser.l"
 {return END;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 ".\\parser.l"
+#line 26 ".\\parser.l"
 {return IF;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 ".\\parser.l"
+#line 27 ".\\parser.l"
 {return THEN;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 ".\\parser.l"
+#line 28 ".\\parser.l"
 {return ELSE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 30 ".\\parser.l"
+#line 29 ".\\parser.l"
 {return WHILE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 31 ".\\parser.l"
+#line 30 ".\\parser.l"
 {return FUNC;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 32 ".\\parser.l"
+#line 31 ".\\parser.l"
 {return PROG;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 33 ".\\parser.l"
+#line 32 ".\\parser.l"
 {return INTEGER;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 34 ".\\parser.l"
+#line 33 ".\\parser.l"
 {return REAL;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 36 ".\\parser.l"
+#line 35 ".\\parser.l"
 {return ASSIGN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 37 ".\\parser.l"
+#line 36 ".\\parser.l"
 {return OR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 38 ".\\parser.l"
+#line 37 ".\\parser.l"
 {return AND;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 39 ".\\parser.l"
+#line 38 ".\\parser.l"
 {return DEC;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 40 ".\\parser.l"
+#line 39 ".\\parser.l"
 {return INC;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 41 ".\\parser.l"
+#line 40 ".\\parser.l"
 {return NOT_EQ;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 42 ".\\parser.l"
+#line 41 ".\\parser.l"
 {return EQ;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 43 ".\\parser.l"
+#line 42 ".\\parser.l"
 {return G_EQ;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 44 ".\\parser.l"
+#line 43 ".\\parser.l"
 {return L_EQ;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 46 ".\\parser.l"
+#line 45 ".\\parser.l"
 {yylval.number = atoi(yytext); return NUMCONST;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 48 ".\\parser.l"
-{ const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; /*printf(yylval.identifier); printf("\n"); */return IDENTIFIER;}
+#line 47 ".\\parser.l"
+{ const char *tmp; tmp = strdup(yytext); yylval.identifier = tmp ; return IDENTIFIER;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 49 ".\\parser.l"
-{printf("Identifiers must start with a character! Error \'%s\' on line :%d\n",yytext,yylineno); exit(0);}
+#line 48 ".\\parser.l"
+{printf("ERROR: Line %d: Identifiers must start with a character: %s \n",yylineno,yytext); exit(0);}
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 52 ".\\parser.l"
+#line 51 ".\\parser.l"
 ;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 53 ".\\parser.l"
+#line 52 ".\\parser.l"
 {return yytext[0];}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 55 ".\\parser.l"
+#line 54 ".\\parser.l"
 {printf("unexpected character \'%s\' on line :%d\n",yytext,yylineno);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 56 ".\\parser.l"
+#line 55 ".\\parser.l"
 BEGIN(COMMENT);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 57 ".\\parser.l"
-{printf(" Unexpected end of comment \n"); yyterminate();}
+#line 56 ".\\parser.l"
+{printf("ERROR: Line %d: Unexpected end of comment \n", yylineno); exit(0);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 58 ".\\parser.l"
+#line 57 ".\\parser.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 59 ".\\parser.l"
+#line 58 ".\\parser.l"
 ;
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 60 ".\\parser.l"
-{printf("Comment needs to be closed \n"); yyterminate();}
+#line 59 ".\\parser.l"
+{printf("ERROR: Line %d: Comments need to be closed \n", yylineno); exit(0);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 63 ".\\parser.l"
+#line 62 ".\\parser.l"
 ECHO;
 	YY_BREAK
-#line 992 "lex.yy.c"
+#line 991 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2006,7 +2005,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 63 ".\\parser.l"
+#line 62 ".\\parser.l"
 
 int yywrap (void) {return 1;}
 

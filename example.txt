@@ -6,7 +6,7 @@ var a : real;
 begin
 end
 
-function orra(a:real) : integer
+function orra(1a:real) : integer
 var b;
 begin
 end

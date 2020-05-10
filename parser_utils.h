@@ -140,6 +140,7 @@ public:
     void list_funcs()
     {
         printf("############################################### \n");
+        printf("List of defined functions: \n");
         for(auto& f : func_list)
         {
             printf("function %s has %d parameters and %d variables \n", f.name, f.num_param, f.num_var);
