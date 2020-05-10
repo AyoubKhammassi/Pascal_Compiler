@@ -123,12 +123,14 @@ public:
     void can_use(const char* name)
     {
         Identifier* id = find_id(name);
+
         if(id!=nullptr && !id->used)
         {
             //Mark this identifier as used
             id->used = true;
         }
-        else
+
+        if(id==nullptr)
         {
             error("%s is not declared in this scope \n", name);
             //exit(0);

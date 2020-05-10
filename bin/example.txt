@@ -1,22 +1,29 @@
 program test;
-var acb,lel : real;
+var a,b,c : real;
 
-function le(a:integer) : integer
-var a : real;
+(*Function example*)
+function func1(a:integer) : integer
+var d : real;
 begin
 end
 
-function orra(1a:real) : integer
+function func2(a:real) : integer
 var b;
 begin
 end
 
 begin
 
+(*If statement example*)
+if((a==b)&&(b <= c))
+then
+begin
+
+end
+
+(*Different operators example*)
+
 a:=b*c;
-b:=5;
-(*Comment 
-lml;;
-test*)
+d++;
 
 end

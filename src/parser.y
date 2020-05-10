@@ -46,6 +46,7 @@ type:               ':' INTEGER
 |					':' REAL;
 stmnt:              rec_stmnt END
 |                   IF '(' expr ')' THEN stmnt ELSE stmnt
+|                   IF '(' expr ')' THEN stmnt 
 |                   WHILE '(' expr ')' stmnt
 |                   RETURN expr ';'
 |                   expr ';'
@@ -73,6 +74,8 @@ expr:               NUMCONST
 |                   expr "&&" expr 
 |                   expr "==" expr 
 |                   expr "!=" expr 
+|                   expr "<=" expr 
+|                   expr ">=" expr 
 |                   expr ',' expr;               
 
 
